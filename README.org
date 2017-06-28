@@ -1,2 +1,16 @@
 * cl-websocket-examples
   websocket in Common Lisp
+** Requirements
+*** Node.js
+*** Roswell
+** Candidates
+*** [[https://github.com/somewrite-adtech/engine-io-server][somewrite-adtech/engine-io-server]]
+**** go to /engine.io
+**** =npm i=
+**** =./server.ros=
+**** =node client.js=
+**** you can debug by =M-x slime-connect= to port 4005
+*** [[https://github.com/fukamachi/websocket-driver][fukamachi/websocket-driver: WebSocket server/client implementation for Common Lisp]]
+*** [[https://github.com/3b/clws][3b/clws: websockets server in CL]]
+*** [[https://github.com/joaotavora/hunchensocket][joaotavora/hunchensocket: WebSockets for Hunchentoot]]
+*** [[https://github.com/e-user/hunchen.io][e-user/hunchen.io: Hunchentoot-based socket.io]]
