@@ -1,0 +1,14 @@
+{
+  "name": "engine.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kentaro shimatani <peccul@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "engine.io-client": "^3.1.1"
+  }
+}

@@ -1,0 +1,54 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#| <Put a one-line description here>
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp (ql:quickload '(:engine-io-server :swank) :silent t)
+  )
+
+(defpackage :ros.script.server.3706692586
+  (:use :cl
+        :engine-io-server)
+  )
+(in-package :ros.script.server.3706692586)
+
+(swank:create-server :port 4005)
+
+(defparameter *server* nil)
+(defparameter *port* 3456)
+
+;; https://github.com/somewrite-adtech/engine-io-server/blob/master/t/util.lisp#L47
+(defmacro with-server ((&rest initargs) &body body)
+  (let ((handler (gensym "HANDLER")))
+    `(tagbody beginning
+        (let* ((*server* (make-instance 'server ,@initargs))
+               (,handler (start-server *server* :port *port*)))
+          (unwind-protect (handler-bind ((usocket:connection-refused-error
+                                          (lambda (e)
+                                            (declare (ignore e))
+                                            (sleep 1)
+                                            (go beginning))))
+                            ,@body)
+            (stop-server ,handler)
+            (sleep 0.5))))))
+
+(defun echo (socket msg)
+  (format t "received: ~a~%" msg)
+  (send socket msg))
+
+(defun main (&rest argv)
+  (declare (ignorable argv))
+  (with-server (:allow-upgrades nil)
+    (on :connection *server*
+        (lambda (socket)
+
+          ;; echo server
+          (on :message socket
+              (lambda (msg)
+                (echo socket msg)))
+
+          ))
+    (loop (sleep 0.1))))
+;;; vim: set ft=lisp lisp:
