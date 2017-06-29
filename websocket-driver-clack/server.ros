@@ -1,0 +1,45 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#| <Put a one-line description here>
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp (ql:quickload '(:websocket-driver-server :clack) :silent t)
+  )
+
+(defpackage :ros.script.server.3707721429
+  (:use :cl
+        :websocket-driver))
+(in-package :ros.script.server.3707721429)
+
+(defun echo (ws message)
+  (format t "~a~%" message)
+  (send ws message))
+
+
+(defvar *echo-server*
+  (lambda (env)
+    (let ((ws (make-server env)))
+      (on :message ws
+          (lambda (message)
+            (echo ws message)))
+      (on :open ws
+          (lambda ()
+            (format t "Connected.~%")))
+      (on :error ws
+          (lambda (error)
+            (format t "Got an error: ~S~%" error)))
+      (on :close ws
+          (lambda (code reason)
+            (format t "Closed because '~A' (Code=~A)~%" reason code)))
+      (lambda (responder)
+        (declare (ignore responder))
+        (start-connection ws)))))
+
+;; Start Wookie server
+(clack:clackup *echo-server* :server :woo :port 5000)
+
+(defun main (&rest argv)
+  (declare (ignorable argv)))
+;;; vim: set ft=lisp lisp:

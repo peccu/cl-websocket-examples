@@ -23,6 +23,10 @@
        APP_ENVdevelopment clackup --server :woo --port 5000 app.lisp
      #+END_SRC
      open client.html and open developer console.
+**** with clack
+     #+BEGIN_SRC shell-script
+     
+     #+END_SRC
 *** [[https://github.com/3b/clws][3b/clws: websockets server in CL]]
 *** [[https://github.com/joaotavora/hunchensocket][joaotavora/hunchensocket: WebSockets for Hunchentoot]]
 *** [[https://github.com/e-user/hunchen.io][e-user/hunchen.io: Hunchentoot-based socket.io]]
