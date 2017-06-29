@@ -22,13 +22,18 @@
 
                ;; for DB
                :datafly
-               :sxql)
+               :sxql
+
+               :websocket-driver
+               :swank
+               )
   :components ((:module "src"
                 :components
                 ((:file "main" :depends-on ("config" "view" "db"))
                  (:file "web" :depends-on ("view"))
                  (:file "view" :depends-on ("config"))
                  (:file "db" :depends-on ("config"))
-                 (:file "config"))))
+                 (:file "config")
+                 (:file "swank"))))
   :description ""
   :in-order-to ((test-op (load-op websocket-driver-caveman-test))))

@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <script>
+     var ws = null;
+     function connect() {
+       ws = new WebSocket("ws://localhost:5000/echo");
+       ws.onmessage = function(evt) {
+         console.log(evt.data);
+       };
+     }
+     function send(message) {
+       ws.send(message);
+     }
+     connect();
+    </script>
+  </head>
+  <body>
+    open developer console.
+    <button onclick="send('test')">send message</button>
+  </body>
+</html>

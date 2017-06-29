@@ -6,7 +6,8 @@
         :websocket-driver-caveman.view
         :websocket-driver-caveman.db
         :datafly
-        :sxql)
+        :sxql
+        :websocket-driver)
   (:export :*web*))
 (in-package :websocket-driver-caveman.web)
 
@@ -25,6 +26,29 @@
 
 (defroute "/" ()
   (render #P"index.html"))
+
+(defun echo (ws message)
+  (format t "~a~%" message)
+  (send ws message))
+
+(defroute "/echo" ()
+  (format t "env: ~a~%" (request-env *request*))
+  (let ((ws (make-server (request-env *request*))))
+    (on :message ws
+      (lambda (message)
+        (echo ws message)))
+    (on :open ws
+      (lambda ()
+        (format t "Connected.~%")))
+    (on :error ws
+      (lambda (error)
+        (format t "Got an error: ~S~%" error)))
+    (on :close ws
+      (lambda (code reason)
+        (format t "Closed because '~A' (Code=~A)~%" reason code)))
+    (lambda (responder)
+      (declare (ignore responder))
+      (start-connection ws))))
 
 ;;
 ;; Error pages
