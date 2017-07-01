@@ -1,4 +1,4 @@
-(ql:quickload :websocket-driver-caveman)
+(ql:quickload :websocket-driver-caveman :silent t)
 
 (defpackage websocket-driver-caveman.app
   (:use :cl)
