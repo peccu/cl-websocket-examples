@@ -18,9 +18,8 @@
        cd ./websocket-driver-caveman
        ros install t-sin/ros-tap
        ros tap tap websocket-driver-caveman.asd
-       ros install clack
        brew install libev or so
-       APP_ENVdevelopment clackup --server :woo --port 5000 app.lisp
+       APP_ENV=development ./server.ros
      #+END_SRC
      open client.html and open developer console.
 **** with clack
